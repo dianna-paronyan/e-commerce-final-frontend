@@ -1,0 +1,122 @@
+:root {
+  --avatar-size: 40px;
+  --cart-icon-size: 24px;
+  --breakpoint: 768px;
+  --bgcolor: #666464;
+}
+$header-height: 30px;
+$avatar-size: 40px;
+$breakpoint: 768px;
+* {
+  margin: 0;
+  padding: 0;
+}
+.header {
+  background-color: var(--bgcolor);
+  padding: 0.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    color: white;
+    font-size: 2rem;
+    margin-left: 1.2rem;
+  }
+
+  .nav-bar {
+    display: flex;
+
+    a {
+      color: white;
+      padding: 1.5rem;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+  }
+
+  .avatar {
+    position: relative;
+    cursor: pointer;
+
+    img {
+      width: var(--avatar-size);
+      height: var(--avatar-size);
+      border-radius: 50%;
+    }
+
+    .logout {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      background-color: white;
+      color: black;
+      padding: 0.5rem;
+      display: none;
+
+      &:hover {
+        background-color: lightgray;
+      }
+    }
+
+    .cart-icon {
+      position: absolute;
+      top: 0;
+      right: calc(-1 * var(--cart-icon-size) / 2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--cart-icon-size);
+      height: var(--cart-icon-size);
+      background-color: white;
+      color: black;
+      border-radius: 50%;
+
+      svg {
+        width: 75%;
+        height: 75%;
+      }
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: $header-height;
+      right: 0;
+      background-color: white;
+      color: black;
+      padding: 0.5rem;
+      display: none;
+      z-index: 10;
+      width: 120px;
+
+      &:hover {
+        background-color: lightgray;
+      }
+    }
+
+    &:hover {
+      .dropdown-menu {
+        display: block;
+      }
+    }
+
+    .dropdown-item {
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+  }
+
+  @media screen and (max-width: var(--breakpoint)) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .nav-bar {
+      margin-top: 1rem;
+    }
+
+    .avatar {
+      margin-top: 1rem;
+    }
+  }
+}
