@@ -9,17 +9,20 @@ interface Product {
   id: number;
   name: string;
   description: string;
+  price: number;
   Image: Image[];
+  quantity: number;
 }
 
-interface Cart {
-  id: number;
+export interface Cart {
+  cartId: number;
   productId: number;
   name: string;
   price: number;
   description: string;
   quantity: number;
   Product: Product;
+  cartItem: Product;
 }
 
 interface CartState {
@@ -29,14 +32,14 @@ interface CartState {
 }
 
 const initialState: CartState = {
-  status: "success",
+  status: "idle",
   carts: [],
   error: null,
 };
 
 export interface Ids {
   productId: number;
-  userId: number;
+  userId: number ;
 }
 
 export const createCart = createAsyncThunk(
@@ -110,7 +113,11 @@ export const getCart = createAsyncThunk(
 const cartSlice = createSlice({
   name: "carts",
   initialState,
-  reducers: {},
+  reducers: {
+    setCartItemCount: (state, action) => {
+      state.carts = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createCart.fulfilled, (state, action) => {
@@ -119,8 +126,12 @@ const cartSlice = createSlice({
           state.carts.push(action.payload);
         }
       })
+      .addCase(getCart.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(getCart.fulfilled, (state, { payload }) => {
-        (state.status = "success"), (state.carts = payload);
+        state.status = "success";
+        state.carts = payload && payload?.cartItems;
         console.log(payload, "p");
       })
       .addCase(deleteCartItem.fulfilled, (state, { payload }) => {
@@ -139,6 +150,7 @@ const cartSlice = createSlice({
         if (cartItemIndex !== -1) {
           state.carts[cartItemIndex].quantity += 1;
         }
+        // state.carts.push(payload)
       })
       .addCase(decrementQuantity.fulfilled, (state, { payload }) => {
         state.status = "success";
@@ -157,3 +169,4 @@ const cartSlice = createSlice({
 
 export default cartSlice.reducer;
 export const getCartItems = (state: RootState): Cart[] => state.carts.carts;
+export const { setCartItemCount } = cartSlice.actions;
