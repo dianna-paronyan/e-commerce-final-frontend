@@ -1,122 +1,161 @@
-:root {
-  --avatar-size: 40px;
-  --cart-icon-size: 24px;
-  --breakpoint: 768px;
-  --bgcolor: #666464;
+.logo {
+  width: 72px;
+  height: 55px;
 }
-$header-height: 30px;
-$avatar-size: 40px;
-$breakpoint: 768px;
-* {
-  margin: 0;
-  padding: 0;
+
+a {
+  text-decoration: none;
 }
-.header {
-  background-color: var(--bgcolor);
-  padding: 0.2rem;
+
+li {
+  list-style: none;
+}
+
+.navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 15px 50px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  position: relative;
+}
 
-  .logo {
-    color: white;
-    font-size: 2rem;
-    margin-left: 1.2rem;
+.nav-links a {
+  color: #fff;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 18px;
+  position: relative;
+}
+
+.menu li {
+  padding: 5px 14px;
+}
+
+.menu .avatar {
+  position: relative;
+}
+
+.menu .avatar .dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  color: #000;
+  padding: 10px;
+  border: 1px solid #ccc;
+  z-index: 2;
+}
+
+.menu .avatar:hover .dropdown {
+  display: block;
+}
+
+.menu .avatar .dropdown .dropdown-item {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+.hamburger {
+  display: none;
+  font-size: 24px;
+}
+
+@media screen and (max-width: 810px) {
+  .menu {
+    display: none;
+    position: absolute;
+    background-color: rgba(28, 30, 30, 0.5);
+    right: 0;
+    left: 0;
+    text-align: center;
+    padding: 16px 0;
   }
 
-  .nav-bar {
-    display: flex;
-
-    a {
-      color: white;
-      padding: 1.5rem;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 1.2rem;
-    }
+  .hamburger {
+    display: block;
   }
+}
 
-  .avatar {
-    position: relative;
-    cursor: pointer;
+input[type="checkbox"]:checked ~ .menu {
+  display: block;
+}
 
-    img {
-      width: var(--avatar-size);
-      height: var(--avatar-size);
-      border-radius: 50%;
-    }
+.cart {
+  width: 30px;
+}
 
-    .logout {
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translate(-50%, 0);
-      background-color: white;
-      color: black;
-      padding: 0.5rem;
-      display: none;
+.cart .count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  right: 3px;
+  background-color: #ebf8f8;
+  border-radius: 50%;
+  padding: 2px 7px;
+  color: #000;
+  font-size: 12px;
+  text-align: center;
+}
 
-      &:hover {
-        background-color: lightgray;
-      }
-    }
+.dropdown1 {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
 
-    .cart-icon {
-      position: absolute;
-      top: 0;
-      right: calc(-1 * var(--cart-icon-size) / 2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: var(--cart-icon-size);
-      height: var(--cart-icon-size);
-      background-color: white;
-      color: black;
-      border-radius: 50%;
+.dropdown1:hover .dropdown-content {
+  display: block;
+}
 
-      svg {
-        width: 75%;
-        height: 75%;
-      }
-    }
-    .dropdown-menu {
-      position: absolute;
-      top: $header-height;
-      right: 0;
-      background-color: white;
-      color: black;
-      padding: 0.5rem;
-      display: none;
-      z-index: 10;
-      width: 120px;
+.dropdown1 .dropdown-content {
+  display: none;
+  position: absolute;
+  margin-top: 7px;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
 
-      &:hover {
-        background-color: lightgray;
-      }
-    }
+.dropdown1 .dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
 
-    &:hover {
-      .dropdown-menu {
-        display: block;
-      }
-    }
+.dropdown1 .dropdown-content a:hover {
+  background-color: #ddd;
+}
 
-    .dropdown-item {
-      padding: 0.5rem;
-      cursor: pointer;
-    }
-  }
+.dropdown1 .dropbtn {
+  background-color: #435143;
+}
 
-  @media screen and (max-width: var(--breakpoint)) {
-    flex-direction: column;
-    align-items: flex-start;
-
-    .nav-bar {
-      margin-top: 1rem;
-    }
-
-    .avatar {
-      margin-top: 1rem;
-    }
-  }
+.cart-badge {
+  position: absolute;
+  top: 3px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 1px 5px;
+  font-size: 9px;
+  font-weight: bold;
 }
