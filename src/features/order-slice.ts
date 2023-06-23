@@ -30,7 +30,6 @@ interface PaymentState {
   status: string;
   clientSecret: string;
   orders: Order[];
-  order: Order;
   error: string | null;
 }
 
@@ -38,7 +37,6 @@ const initialState: PaymentState = {
   status: 'idle',
   clientSecret: '',
   orders: [],
-  order: {} as Order,
   error: null,
 };
 
@@ -58,23 +56,12 @@ export const createPaymentIntent = createAsyncThunk(
   }
 );
 
-export const allOrders = createAsyncThunk(
-  'order/allOrders',
-  async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/orders');
-      return response.data;
-    } catch (error) {
-      throw new Error('Failed to fetch orders');
-    }
-  }
-);
-
 export const orderById = createAsyncThunk(
   'orders/orderById',
   async (id?: string) => {
     try {
       const response = await axios.get(`http://localhost:5000/order/${id}`);
+      console.log(response,'r');
       return response.data;
     } catch (error) {
       throw new Error('Failed to fetch order by ID');
@@ -82,8 +69,8 @@ export const orderById = createAsyncThunk(
   }
 );
 
-const paymentSlice = createSlice({
-  name: 'payment',
+const orderSlice = createSlice({
+  name: 'orders',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -96,18 +83,13 @@ const paymentSlice = createSlice({
         state.clientSecret = payload;
         state.orders = payload.order;
       })
-      .addCase(allOrders.fulfilled, (state, { payload }) => {
-        state.status = 'success';
-        state.orders = payload;
-      })
       .addCase(orderById.fulfilled, (state, { payload }) => {
         state.status = 'success';
-        state.order = payload;
+        state.orders = payload;
       });
   },
 });
 
-export default paymentSlice.reducer;
-
+export default orderSlice.reducer;
 export const getOrders = (state: RootState): Order[] => state.orders.orders;
-export const getOrder = (state: RootState): Order => state.orders.order;
+
