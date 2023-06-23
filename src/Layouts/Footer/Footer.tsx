@@ -30,8 +30,8 @@ function Footer() {
         <ul>
           <li>Hanrapetutyun str.,</li>
           <li>Erevan, Armenia</li>
-          <li>(374) 96 100 939</li>
-          <li>info@-eyewear.com</li>
+          <li>(+374) 78 150 827</li>
+          <li>info@-glasson.com</li>
           <li>Monday - Sunday, 10:00-19:00</li>
         </ul>
       </div>
