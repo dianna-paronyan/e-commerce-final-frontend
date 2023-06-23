@@ -10,7 +10,6 @@ const images:Array<string> = [
 ]
 
 const delay = 4000;
-// type TimeoutRef = NodeJS.Timeout | null;
 
 function Carousel() {
   const [index,setIndex] = useState<number>(0);
