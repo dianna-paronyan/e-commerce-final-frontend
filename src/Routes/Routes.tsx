@@ -9,6 +9,8 @@ import CartItemCount from "../Providers/CartItemCount";
 import Category from "../Pages/Categories/Category";
 import Products from "../Pages/Products/Products";
 import Ordered from "../Pages/Orders/Ordered";
+import NotFound from "../components/NotFound";
+import ProtectedRoute from "./ProtectedRoutes";
 
 
 function AppRoutes() {
@@ -20,11 +22,12 @@ function AppRoutes() {
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<Product />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cartItem/:id" element={<Cart />} />
+          <Route path="/login" element={<Login /> } />
+          <Route path="/cartItem/:id" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/category/:id" element={<Category />} />
-          <Route path="/ordered/:cartId" element={<Ordered />} />
+          <Route path="/ordered/:cartId" element={<ProtectedRoute><Ordered /></ProtectedRoute>} />
         </Route>
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </CartItemCount>
   );
