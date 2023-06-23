@@ -11,9 +11,9 @@ import {
 import "./Home.scss";
 
 const imgs = [
-  "../../../images/w-c-PhotoRoom.png-PhotoRoom.png",
+  "../../../images/Hb9df86c1701c4716bffcd4d080b9aecaj.jpg_960x960-PhotoRoom.png-PhotoRoom.png",
   "../../../images/m-c-PhotoRoom.png-PhotoRoom.png",
-  "../../../images/r-c-PhotoRoom.png-PhotoRoom.png",
+  "../../../images/Classic-Small-Frame-Round-Sunglasses-Women-Men-Brand-Designer-Metal-Sun-Glasses-Vintage-Fashion-Eyewear-UV400.jpg_640x640-PhotoRoom.png-PhotoRoom.png",
 ];
 
 function Home() {
@@ -30,10 +30,10 @@ function Home() {
     <div>
       <div className="photo"></div>
       <div className="txt">
-        <h2>Ray-Ban Sunglasses</h2>
+        <h2>Sunglasses</h2>
         <div>
           <p>
-            Authentic Ray-BanSunglasses you love, from a company you can trust.
+            Authentic Sunglasses you love, from a company you can trust.
           </p>
           <hr />
         </div>
@@ -57,7 +57,7 @@ function Home() {
       <Carousel />
 
       <div className="about" id="about">
-        <h2>About</h2>
+        <h3>About</h3>
         <div className="about-box">
           <div className="image-box"></div>
           <div className="about-txt-box">
