@@ -42,8 +42,7 @@ const initialState: ProductState = {
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async (currentPage:number) => {
-    // const res = await fetch("http://localhost:5000/products");
-    const res = await fetch(`http://localhost:5000/products?page=${currentPage}&pageSize=2`);
+    const res = await fetch(`http://localhost:5000/products/page?page=${currentPage}&pageSize=10`);
     const json = await res.json();
     return json;
   }
@@ -75,7 +74,6 @@ const productsSlice = createSlice({
           console.log(action.payload,'pr');
           state.products = action.payload.products;
           state.totalPages = action.payload.totalPages;
-          // state.products = action.payload;
         }
       )
       .addCase(fetchProducts.rejected, (state) => {
