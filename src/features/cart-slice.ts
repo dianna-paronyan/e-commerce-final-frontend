@@ -42,6 +42,18 @@ export interface Ids {
   userId: number ;
 }
 
+export interface UserStorage {
+  jwt: string;
+  status: string;
+  role: number;
+  userName: string;
+  is_verified: number;
+}
+
+const userInStorage = localStorage.getItem("user");
+const user: UserStorage  = userInStorage && JSON.parse(userInStorage);
+const authorizationHeader = user ? user.jwt : '';
+
 export const createCart = createAsyncThunk(
   "carts/createCart",
   async ({ productId, userId }: Ids) => {
@@ -54,6 +66,7 @@ export const createCart = createAsyncThunk(
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        Authorization: authorizationHeader 
       },
     });
     const json = res.json();
@@ -67,6 +80,7 @@ export const deleteCartItem = createAsyncThunk(
       method: "DELETE",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        Authorization: authorizationHeader
       },
     });
     const json = res.json();
@@ -80,6 +94,7 @@ export const incrementQuantity = createAsyncThunk(
       method: "PUT",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        Authorization: authorizationHeader
       },
     });
     const json = res.json();
@@ -94,17 +109,21 @@ export const decrementQuantity = createAsyncThunk(
       method: "PUT",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        Authorization: authorizationHeader
       },
     });
     const json = res.json();
     return json;
   }
 );
-
 export const getCart = createAsyncThunk(
   "carts/getCart",
   async (id?: string) => {
-    const res = await fetch(`http://localhost:5000/cartItem/${id}`);
+    const res = await fetch(`http://localhost:5000/cartItem/${id}`,{
+      headers:{
+        Authorization: authorizationHeader
+      }
+    });
     const json = await res.json();
     return json;
   }
@@ -113,15 +132,11 @@ export const getCart = createAsyncThunk(
 const cartSlice = createSlice({
   name: "carts",
   initialState,
-  reducers: {
-    setCartItemCount: (state, action) => {
-      state.carts = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(createCart.fulfilled, (state, action) => {
-        (state.status = "success"), console.log(action.payload, "payl");
+        state.status = "success";
         if (action.payload) {
           state.carts.push(action.payload);
         }
@@ -132,7 +147,6 @@ const cartSlice = createSlice({
       .addCase(getCart.fulfilled, (state, { payload }) => {
         state.status = "success";
         state.carts = payload && payload?.cartItems;
-        console.log(payload, "p");
       })
       .addCase(deleteCartItem.fulfilled, (state, { payload }) => {
         state.status = "success";
@@ -147,10 +161,9 @@ const cartSlice = createSlice({
           (item) => item.productId === productId
         );
 
-        if (cartItemIndex !== -1) {
+        if (cartItemIndex !==-1) {
           state.carts[cartItemIndex].quantity += 1;
         }
-        // state.carts.push(payload)
       })
       .addCase(decrementQuantity.fulfilled, (state, { payload }) => {
         state.status = "success";
@@ -158,7 +171,7 @@ const cartSlice = createSlice({
         const cartItemIndex = state.carts.findIndex(
           (item) => item.productId === cartItemId
         );
-        if (cartItemIndex !== -1) {
+        if (cartItemIndex !==-1) {
           if (state.carts[cartItemIndex].quantity > 1) {
             state.carts[cartItemIndex].quantity -= 1;
           }
@@ -169,4 +182,4 @@ const cartSlice = createSlice({
 
 export default cartSlice.reducer;
 export const getCartItems = (state: RootState): Cart[] => state.carts.carts;
-export const { setCartItemCount } = cartSlice.actions;
+
