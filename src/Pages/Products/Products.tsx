@@ -8,16 +8,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import "../../style.scss";
 
-
 function Products() {
   const dispatch: AppDispatch = useDispatch();
   const { decoded, userInStorage } = useLocalStorage();
   const [searchTerm, setSearchTerm] = useState("");
   const products = useSelector(allProducts);
   const [currentPage, setCurrentPage] = useState(1);
-  const pages = useSelector((state:RootState)=> state.products.totalPages)
-  console.log(products,'prod');
-  const navigate = useNavigate()
+  const pages = useSelector((state: RootState) => state.products.totalPages);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchProducts(currentPage));
@@ -25,9 +23,9 @@ function Products() {
 
   function addToCart(id: number) {
     if (userInStorage && decoded?.id) {
-      dispatch(createCart({ productId: id, userId: +decoded.id }));
-    }else{
-      navigate('/login')
+      dispatch(createCart({ productId: id, userId: +decoded?.id }));
+    } else {
+      navigate("/login");
     }
   }
 
@@ -39,8 +37,8 @@ function Products() {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  function paginate(i:number){
-    setCurrentPage(i)
+  function paginate(i: number) {
+    setCurrentPage(i);
   }
 
   return (
@@ -64,9 +62,7 @@ function Products() {
           style={{ width: "250px", height: "45px", padding: "10px" }}
         />
       </div>
-      <div
-        className="grid"
-      >
+      <div className="grid">
         {filteredProducts ? (
           filteredProducts.map((product) => (
             <article key={product.id} className="card">
@@ -81,9 +77,15 @@ function Products() {
               <div className="text">
                 <h3>{product.name}</h3>
                 <p>{product.price}AMD</p>
-                <button onClick={() => addToCart(product.id)}>
-                  Add to Cart
-                </button>
+                {product.quantity > 0 ? (
+                  <button onClick={() => addToCart(product.id)}>
+                    Add to Cart
+                  </button>
+                ) : (
+                  <button style={{ backgroundColor: "#6E6E6E" }}>
+                    Out of Stock
+                  </button>
+                )}
               </div>
             </article>
           ))
@@ -91,9 +93,13 @@ function Products() {
           <p>Loading...</p>
         )}
       </div>
-      <div>
-          {Array.from(Array(pages).keys()).map((el)=><button onClick={()=>paginate(el+1)}>{el+1}</button>)}
-        </div>
+      <div className="pagination">
+        {Array.from(Array(pages).keys()).map((el, i) => (
+          <button key={i} onClick={() => paginate(el + 1)}>
+            {el + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
