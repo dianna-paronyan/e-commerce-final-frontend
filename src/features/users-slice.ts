@@ -7,8 +7,15 @@ export interface User {
   password: string;
 }
 
+interface pay{
+  is_verified:number | string,
+  jwt:string,
+  userName:string
+
+}
 interface UserState {
   users: User[];
+  payl: pay | null;
   errorLogin: string | null | undefined;
   errorRegister: string | null | undefined;
   status: "idle" | "loading" | "success" | "error";
@@ -16,6 +23,7 @@ interface UserState {
 
 const initialState: UserState = {
   users: [],
+  payl: null,
   errorLogin: null,
   errorRegister: null,
   status: "idle",
@@ -59,25 +67,31 @@ export interface LoginPayload {
 }
 
 export const login = createAsyncThunk(
-    "users/login",
-    async ({ user }: { user: LoginPayload }) => {
-      try {
-        const res = await fetch("http://localhost:5000/login", {
-          method: "POST",
-          body: JSON.stringify(user),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        });
-        const json = await res.json();
-        if (res.ok) {
-          return json;
-        } 
-      } catch (err: any) {
-        throw new Error(err);
+  "users/login",
+  async ({ user }: { user: LoginPayload }) => {
+    try {
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+
+      const status = res.status;
+      const json = await res.json();
+
+      if (status === 200) {
+        return json;
+      } else {
+        throw new Error(json);
       }
+    } catch (err: any) {
+      throw new Error(err);
     }
-  );
+  }
+);
+
   
 const usersSlice = createSlice({
   name: "users",
@@ -98,18 +112,20 @@ const usersSlice = createSlice({
         console.log(action,'a');
         state.errorRegister = action.error.message ;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, { payload }) => {
         state.status = "success";
-        if (action.payload?.jwt) {
-          return localStorage.setItem("user", JSON.stringify(action.payload));
-        }
+          state.payl = payload
+        
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "error";
         console.log(action,'a');
-        state.errorLogin = action.error.message ;
+        state.errorLogin = action.error.message;
       });
   },
 });
 
 export default usersSlice.reducer;
+
+
+
