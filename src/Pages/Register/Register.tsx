@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register, User } from "../../features/users-slice";
 import { AppDispatch, RootState } from "../../app/store";
 import { Link } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import './Register.scss'
 
 
@@ -16,6 +17,7 @@ function Register() {
   const [registered, setRegistered] = useState(false);
   const errorMessage = useSelector((state: RootState) => state.users.errorRegister);
   const dispatch: AppDispatch = useDispatch();
+  const {userInStorage} = useLocalStorage()
 
   function registerUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,7 +38,7 @@ function Register() {
     <div className="form-bd">
       <div className="form-wrapper">
         <div className="form-container">
-          <h1>Please Register</h1>
+          <h1>Register</h1>
           <form onSubmit={registerUser}>
             <div className="form-control">
               <input
@@ -72,7 +74,7 @@ function Register() {
                 placeholder="Password"
               />
             </div>
-            {errorMessage && <p className="error-message">{errorMessage.slice(6)}</p>}
+             <p className="error-message">{errorMessage?.slice(6)}</p>
             <button className="login-btn">Register</button>
             <p className="text">
               Have an account? <Link to="/login">Login</Link>
@@ -80,9 +82,9 @@ function Register() {
           </form>
         </div>
       </div>
-      {registered ? (
+      {userInStorage && registered ? (
         <div className="registration-success">
-          <p>You have successfully registered!</p>
+          <p>You have successfully registered! Confirm Email</p>
         </div>
       ):null}
     </div>
