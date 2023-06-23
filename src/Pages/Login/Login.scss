@@ -30,7 +30,7 @@ form {
 }
 
 .form-control {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 input {
@@ -49,10 +49,10 @@ input {
   border: none;
   padding: 12px 24px;
   border-radius: 4px;
-  cursor: pointer;
   transition: background-color 0.3s ease-in-out;
   font-size: 16px;
-  margin-top: 15px;
+  // margin-top: 15px;
+  cursor: pointer;
 }
 
 .login-btn:hover {
@@ -76,9 +76,20 @@ input {
 }
 
 .error-message{
-  height: 15px;
+  height: 35px;
   color: red;
   font-size: 14px
+}
+
+.verify{
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px;
+  background-color: #de1a0c;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 480px) {

@@ -1,6 +1,5 @@
 .logo {
-  width: 72px;
-  height: 55px;
+  width: 110px;
 }
 
 a {
@@ -15,8 +14,8 @@ li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 50px;
-  background-color: rgba(0, 0, 0, 0.7);
+  padding: 0 50px;
+  background-color: rgba(0, 0, 0, 0.6);
   color: #fff;
   position: sticky;
   top: 0;
@@ -73,7 +72,7 @@ input[type="checkbox"] {
   font-size: 24px;
 }
 
-@media screen and (max-width: 810px) {
+@media screen and (max-width: 860px) {
   .menu {
     display: none;
     position: absolute;
@@ -147,15 +146,18 @@ input[type="checkbox"]:checked ~ .menu {
 .dropdown1 .dropbtn {
   background-color: #435143;
 }
-
+.menu li {
+  position: relative;
+}
 .cart-badge {
   position: absolute;
-  top: 3px;
-  right: 10px;
-  background-color: red;
-  color: white;
+  top: 2px;
+  right: 8px;
+  background-color: #f5d6bb;
+  color: #000;
   border-radius: 50%;
-  padding: 1px 5px;
-  font-size: 9px;
+  padding: 2px 6px;
+  font-size: 10px;
   font-weight: bold;
+  text-align: center;
 }
