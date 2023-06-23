@@ -12,6 +12,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import "./Header.scss";
 
+
 function Header() {
   const categories = useSelector(getCategories);
   const { decoded } = useLocalStorage();
@@ -21,7 +22,6 @@ function Header() {
   const dispatch: AppDispatch = useDispatch();
   const count = useCartItemCount();
 
- 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -37,6 +37,17 @@ function Header() {
       navigate("/login");
     }
   }
+  
+  const hash = window.location.hash;
+  useEffect(() => {
+    
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [hash]);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -45,9 +56,7 @@ function Header() {
   return (
     <header className="navbar">
       <div className="logo">
-        <a href="">
-          <img className="logo" src="" alt="" />
-        </a>
+          <img className="logo" src="../../../images/glass-logo.png" alt="" />
       </div>
 
       <ul className="nav-links">
@@ -75,9 +84,11 @@ function Header() {
             </div>
           </li>
 
-          <li>
-            <Link to="/#about">About</Link>
+          <li >
+            <Link to={'/#about'}> About</Link>
+          
           </li>
+          {/* <li><HashLink to={"/#about"}>About</HashLink></li> */}
           <li>
             <Link to="">Contact</Link>
           </li>
