@@ -5,7 +5,6 @@ import { fetchProductById, singleProduct } from "../../features/products-slice";
 import { useParams } from "react-router-dom";
 import { AppDispatch } from "../../app/store";
 import "./Product.scss";
-// import Counter from "../../components/Counter";
 
 function Product() {
   const { id } = useParams<{ id?: string }>();
@@ -42,7 +41,7 @@ function Product() {
             <img
               src={`http://localhost:5000/images/${currentImage}`}
               alt={currentImage}
-              style={{ width: "450px", height:"400px" }}
+              style={{ width: "520px", height:"400px" }}
             />
           </div>
           <div className="small-images">
@@ -64,8 +63,7 @@ function Product() {
       <h2>{product?.name}</h2>
       <p>{product?.description}</p>
       <p>Price: ${product?.price}</p>
-      {/* <Counter /> */}
-      </div>
+        </div>
     </div>
   );
 }
