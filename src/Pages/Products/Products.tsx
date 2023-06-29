@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { allProducts, fetchProducts } from "../../features/products-slice";
+import { allProducts, getProducts } from "../../features/products-slice";
 import { createCart } from "../../features/cart-slice";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { AppDispatch, RootState } from "../../app/store";
@@ -11,15 +11,19 @@ import "../../style.scss";
 function Products() {
   const dispatch: AppDispatch = useDispatch();
   const { decoded, userInStorage } = useLocalStorage();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearch] = useState("");
   const products = useSelector(allProducts);
   const [currentPage, setCurrentPage] = useState(1);
   const pages = useSelector((state: RootState) => state.products.totalPages);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchProducts(currentPage));
+    dispatch(getProducts(currentPage));
   }, [dispatch, currentPage]);
+
+  function paginate(i: number) {
+    setCurrentPage(i);
+  }
 
   function addToCart(id: number) {
     if (userInStorage && decoded?.id) {
@@ -30,16 +34,12 @@ function Products() {
   }
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
-    setSearchTerm(event.target.value);
+    setSearch(event.target.value);
   }
 
   const filteredProducts = products?.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    product.name.toLowerCase().includes(search.toLowerCase())
   );
-
-  function paginate(i: number) {
-    setCurrentPage(i);
-  }
 
   return (
     <div className="products-container">
@@ -57,7 +57,7 @@ function Products() {
         <input
           type="text"
           placeholder="Search"
-          value={searchTerm}
+          value={search}
           onChange={handleSearch}
           style={{ width: "250px", height: "45px", padding: "10px" }}
         />
