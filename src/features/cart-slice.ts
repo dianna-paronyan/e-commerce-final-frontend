@@ -121,6 +121,7 @@ export const getCart = createAsyncThunk(
   async (id?: string) => {
     const res = await fetch(`http://localhost:5000/cartItem/${id}`,{
       headers:{
+        "Content-type": "application/json; charset=UTF-8",
         Authorization: authorizationHeader
       }
     });
