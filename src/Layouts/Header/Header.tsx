@@ -88,7 +88,6 @@ function Header() {
             <Link to={'/#about'}> About</Link>
           
           </li>
-          {/* <li><HashLink to={"/#about"}>About</HashLink></li> */}
           <li>
             <Link to="">Contact</Link>
           </li>
