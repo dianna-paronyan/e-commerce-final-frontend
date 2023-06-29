@@ -40,15 +40,33 @@ const initialState: PaymentState = {
   error: null,
 };
 
-export const createPaymentIntent = createAsyncThunk(
-  'payment/createPaymentIntent',
+export interface UserStorage {
+  jwt: string;
+  status: string;
+  role: number;
+  userName: string;
+  is_verified: number;
+}
+
+const userInStorage = localStorage.getItem("user");
+const user: UserStorage  = userInStorage && JSON.parse(userInStorage);
+const authorizationHeader = user ? user.jwt : '';
+
+export const createPaymentOrder = createAsyncThunk(
+  'paymentOrder/createPaymentOrder',
   async ({ token, cartId, products }: Param) => {
     try {
       const response = await axios.post('http://localhost:5000/createOrderPayment', {
         token,
         cartId,
         products,
-      });
+      },
+      {
+        headers: {
+          Authorization: authorizationHeader,
+        }
+      }
+      );
       return response.data;
     } catch (error) {
       throw new Error('Failed to create payment intent');
@@ -60,8 +78,11 @@ export const orderById = createAsyncThunk(
   'orders/orderById',
   async (id?: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/order/${id}`);
-      console.log(response,'r');
+      const response = await axios.get(`http://localhost:5000/order/${id}`,{
+        // headers:{
+        //   Authorization: authorizationHeader
+        // }
+      });
       return response.data;
     } catch (error) {
       throw new Error('Failed to fetch order by ID');
@@ -75,10 +96,10 @@ const orderSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createPaymentIntent.pending, (state) => {
+      .addCase(createPaymentOrder.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(createPaymentIntent.fulfilled, (state, { payload }) => {
+      .addCase(createPaymentOrder.fulfilled, (state, { payload }) => {
         state.status = 'success';
         state.clientSecret = payload;
         state.orders = payload.order;
@@ -86,6 +107,7 @@ const orderSlice = createSlice({
       .addCase(orderById.fulfilled, (state, { payload }) => {
         state.status = 'success';
         state.orders = payload;
+        console.log(payload,'orders');
       });
   },
 });
