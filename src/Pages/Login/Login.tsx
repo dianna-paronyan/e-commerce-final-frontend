@@ -11,7 +11,7 @@ function Login() {
     password: "",
   });
   const [verifiedError, setVerifiedError] = useState<string>("");
-  let errorMessage = useSelector((state: RootState) => state.users.errorLogin);
+  const errorMessage = useSelector((state: RootState) => state.users.errorLogin);
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
@@ -19,25 +19,27 @@ function Login() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (
-      payl !== null &&
-      payl?.is_verified === 1 &&
-      !errorMessage &&
-      !storedUser
-    ) {
-      localStorage.setItem("user", JSON.stringify(payl));
-      navigate(-1);
-    } else if (payl?.is_verified === 0 && !errorMessage && !storedUser) {
-      setVerifiedError("Confirm Email Verification");
-    }
-  }, [payl, errorMessage, navigate]);
+      if (
+        payl !== null &&
+        payl?.is_verified === 1 &&
+        !errorMessage &&
+        !storedUser
+        ) {
+          localStorage.setItem("user", JSON.stringify(payl));
+          navigate(-1);
+        } else if (payl?.is_verified === 0  && !errorMessage && !storedUser) {
+        setVerifiedError("Confirm Email Verification");
+      }
+
+  }, [payl, navigate, errorMessage]);
 
   function loginUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    dispatch(login({ user }));
-    setUser({ email: "", password: "" });
-    errorMessage = "";
+    dispatch(login({ user })).then(()=>{
+      setUser({ email: "", password: "" });
+    })
+
   }
 
   useEffect(() => {
