@@ -79,9 +79,9 @@ export const orderById = createAsyncThunk(
   async (id?: string) => {
     try {
       const response = await axios.get(`http://localhost:5000/order/${id}`,{
-        // headers:{
-        //   Authorization: authorizationHeader
-        // }
+        headers:{
+          Authorization: authorizationHeader
+        }
       });
       return response.data;
     } catch (error) {
