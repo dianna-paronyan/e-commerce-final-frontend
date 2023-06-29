@@ -59,7 +59,15 @@ function Category() {
             <div className="text">
               <h3>{pr.name}</h3>
               <p>{pr.price}AMD</p>
-              <button onClick={() => addToCart(pr.id)}>Add to Cart</button>
+              {pr.quantity > 0 ? (
+                  <button onClick={() => addToCart(pr.id)}>
+                    Add to Cart
+                  </button>
+                ) : (
+                  <button style={{ backgroundColor: "#6E6E6E" }}>
+                    Out of Stock
+                  </button>
+                )}
             </div>
           </article>
         ))}
