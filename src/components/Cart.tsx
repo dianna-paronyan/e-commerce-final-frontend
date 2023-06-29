@@ -10,7 +10,7 @@ import { AppDispatch } from "../app/store";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import StripeCheckout from "react-stripe-checkout";
-import { createPaymentIntent } from "../features/order-slice";
+import { createPaymentOrder } from "../features/order-slice";
 import { Product } from "../features/order-slice";
 import { nanoid } from "@reduxjs/toolkit";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -61,7 +61,7 @@ function Cart() {
       Image: cart.Product.Image[0],
     }));
     const cartId = data[0]?.cartId;
-    dispatch(createPaymentIntent({ token, cartId, products }));
+    dispatch(createPaymentOrder({ token, cartId, products }));
     localStorage.setItem("cartId", String(cartId));
 
     navigate(`/ordered/${cartId}`);
