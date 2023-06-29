@@ -21,9 +21,7 @@ function Register() {
 
   function registerUser(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(register({ user })).then((res)=>{
-      setRegistered(true);
-    });
+    dispatch(register({ user }));
     setUser({ userName: "", email: "", password: "" });
   }
   useEffect(()=>{
@@ -82,7 +80,7 @@ function Register() {
           </form>
         </div>
       </div>
-      {userInStorage && registered ? (
+      {userInStorage && registered  ? (
         <div className="registration-success">
           <p>You have successfully registered! Confirm Email</p>
         </div>
