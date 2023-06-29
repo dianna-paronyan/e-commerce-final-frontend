@@ -29,7 +29,7 @@ const initialState: UserState = {
   status: "idle",
 };
 
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
+export const getUsers = createAsyncThunk("users/getUsers", async () => {
   const res = await fetch("http://localhost:5000/users");
   const json = res.json();
   return json;
@@ -99,27 +99,27 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUsers.fulfilled, (state, action) => {
+      .addCase(getUsers.fulfilled, (state, action) => {
         state.status = "success";
         state.users = action.payload;
       })
       .addCase(register.fulfilled, (state, action) => {
         state.status = "success";
+        state.errorRegister = null;
         state.users.push(action.payload);
-        console.log(action.payload);
+        state.users = action.payload
+        console.log(action.payload,'reg');
       }).addCase(register.rejected, (state, action) => {
         state.status = "error";
-        console.log(action,'a');
         state.errorRegister = action.error.message ;
       })
       .addCase(login.fulfilled, (state, { payload }) => {
         state.status = "success";
-          state.payl = payload
-        
+          state.payl = payload;
+          state.errorLogin = null;  
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "error";
-        console.log(action,'a');
         state.errorLogin = action.error.message;
       });
   },
