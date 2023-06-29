@@ -39,7 +39,7 @@ const initialState: ProductState = {
   status: "idle"
 };
 
-export const fetchProducts = createAsyncThunk(
+export const getProducts = createAsyncThunk(
   "products/fetchProducts",
   async (currentPage:number) => {
     const res = await fetch(`http://localhost:5000/products/page?page=${currentPage}&pageSize=10`);
@@ -48,12 +48,11 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-export const fetchProductById = createAsyncThunk(
+export const getProductById = createAsyncThunk(
   "products/fetchProductById",
   async (id?: string) => {
     const res = await fetch(`http://localhost:5000/product/${id}`);
     const json = await res.json();
-    console.log(json,'j');
     return json;
   }
 );
@@ -64,22 +63,21 @@ const productsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProducts.pending, (state) => {
+      .addCase(getProducts.pending, (state) => {
         state.status = "loading";
       })
       .addCase(
-        fetchProducts.fulfilled,
+        getProducts.fulfilled,
         (state, action: PayloadAction<{ products: ProductSt[], totalPages: number }>) => {
           state.status = "success";
-          console.log(action.payload,'pr');
           state.products = action.payload.products;
           state.totalPages = action.payload.totalPages;
         }
       )
-      .addCase(fetchProducts.rejected, (state) => {
+      .addCase(getProducts.rejected, (state) => {
         state.status = "error";
       })
-      .addCase(fetchProductById.fulfilled, (state, { payload }) => {
+      .addCase(getProductById.fulfilled, (state, { payload }) => {
         state.status = "success";
         state.product = payload; 
       });

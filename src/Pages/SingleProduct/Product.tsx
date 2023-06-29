@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductById, singleProduct } from "../../features/products-slice";
+import { getProductById, singleProduct } from "../../features/products-slice";
 import { useParams } from "react-router-dom";
 import { AppDispatch } from "../../app/store";
 import "./Product.scss";
@@ -14,7 +14,7 @@ function Product() {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchProductById(id));
+      dispatch(getProductById(id));
     }
   }, [dispatch, id]);
 
